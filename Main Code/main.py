@@ -71,19 +71,19 @@ def main():
         f.write("no")
         f.close()
 
-        if(mode = 'detumble'):
+        if mode == 'detumble':
             logging.debug("Calling detumble function")
             print('calling detumble function')
-        elif(mode = 'runhddtest'):
+        elif mode == 'runhddtest':
             logging.debug("Calling ADCS HDD function")
             print('calling ADCS HDD function')
-        elif(mode='runmrwtest'):
+        elif mode == 'runmrwtest':
             logging.debug("Calling ADCS MRW Test function")
             print('calling ADCS MRW Test function')
-        elif(mode = 'hddimagingmode'):
+        elif mode == 'hddimagingmode':
             logging.debug("Calling ADCS HDD Imaging function")
             print('calling ADCS HDD Imaging function')
-        elif(mode = 'mrwimagingmode'):
+        elif mode == 'mrwimagingmode':
             logging.debug("Calling ADCS MRW Imaging function")
             print('calling ADCS MRW Imaging function')
 
