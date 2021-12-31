@@ -8,6 +8,23 @@ logger = logging.getLogger()
 def main():
 
     logger.info("Starting main loop")
+    
+    # Check if we need to wait 30 minutes (first time booting up)
+    t = open("initialTimer.txt", "r")
+    initialTimer = t.readline()
+    t.close()
+    logging.debug('Succesfully read initialTimer.txt')
+
+    if initialTimer.strip()=='yes':
+        # Here it will wait for 30 minutes 
+        # TO DO: Specify what the cubesat needs to do during these 30 minutes 
+        logging.debug('Succesfully waited 30 minutes')
+        # Write no to file so it doesn't wait the 30 minutes next time it boots up
+        f = open("initialTimer.txt","w")
+        f.write("no")
+        f.close()
+        logging.debug('Succesfully wrote "no" to initialTimer.txt')
+    
     # check if battery timer is done
     logger.debug("Checking battery")
     bt = open("batteryText.txt", "r")
