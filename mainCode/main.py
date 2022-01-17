@@ -1,4 +1,5 @@
 import logging
+import RPi.GPIO as GPIO
 
 #Format follows convention of: Level of Warning, Time (down to the ms), Message
 LOG_FORMAT = "%(levelname)s %(asctime)s -> %(message)s"
@@ -8,7 +9,7 @@ logger = logging.getLogger()
 def main():
 
     logger.info("Starting main loop")
-    
+
     # Check if we need to wait 30 minutes (first time booting up)
     t = open("initialTimer.txt", "r")
     initialTimer = t.readline()
@@ -16,15 +17,36 @@ def main():
     logging.debug('Succesfully read initialTimer.txt')
 
     if initialTimer.strip()=='yes':
-        # Here it will wait for 30 minutes 
-        # TO DO: Specify what the cubesat needs to do during these 30 minutes 
+        # Here it will wait for 30 minutes
+        # TO DO: Specify what the cubesat needs to do during these 30 minutes
         logging.debug('Succesfully waited 30 minutes')
         # Write no to file so it doesn't wait the 30 minutes next time it boots up
         f = open("initialTimer.txt","w")
         f.write("no")
         f.close()
         logging.debug('Succesfully wrote "no" to initialTimer.txt')
-    
+
+
+    #check if antenna has been deployed
+    a = open("antennaDeploy.txt","r")
+    ifAntennaDeploy=a.readline()
+    a.close()
+    if ifAntennaDeploy.strip()=='no':
+        #Need to test setting gpio to high. IDK if it's set high for a millisecond or for the duration of the program
+        #engage burnwire resistor
+        GPIO.setmode(GPIO.BOARD)
+        #need to change address of gpio pin because we don't know what it should be
+        GPIO.setup(5, GPIO.OUT)
+        #setting gpio pin to high
+        GPIO.output(5, GPIO.HIGH)
+        logging.debug('Deployed Antenna')
+
+        #write to text file so antenna doesn't deploy again
+        b = open("antennaDeploy.txt","w")
+        b.write("yes")
+        b.close()
+        logging.debug('Succesfully wrote "no" to antennaDeploy.txt')
+
     # check if battery timer is done
     logger.debug("Checking battery")
     bt = open("batteryText.txt", "r")
