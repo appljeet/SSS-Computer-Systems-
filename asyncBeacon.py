@@ -12,3 +12,7 @@ while True:
     f = open(completeName, "w")
     f.write("yes") #writing yes to txt file every minute
     f.close()
+
+
+
+#test is working lolz broski
