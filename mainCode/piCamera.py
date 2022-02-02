@@ -1,14 +1,13 @@
 import os
 from picamera import PiCamera
 from datetime import datetime
-
-home = os.path.expanduser("~") #determines home path regardless of OS
-file_path = home + '/SSS/images'
+from time import sleep
 
 camera = PiCamera()
 
 def capture():
     timestamp = datetime.now().isoformat()
-    camera.capture(os.path.join(file_path, ('/%s.jpg' % timestamp)))
+    sleep(3)
+    camera.capture('../images/%s.jpg' % timestamp)
 
 capture()
