@@ -18,7 +18,6 @@ def main():
 
     if initialTimer.strip()=='yes':
         # Here it will wait for 30 minutes
-        # TO DO: Specify what the cubesat needs to do during these 30 minutes
         logging.debug('Succesfully waited 30 minutes')
         # Write no to file so it doesn't wait the 30 minutes next time it boots up
         f = open("initialTimer.txt","w")
@@ -67,13 +66,6 @@ def main():
     b.close();
     logging.debug("Successful beacon.txt access")
 
-    logging.debug("Opening scheduleTimer.txt")
-    s = open("scheduleTimer.txt", "r")
-    schedulerText = s.readline()
-    s.close();
-    logging.debug("Successful scheduleTimer.txt access")
-
-
     if batteryText.strip()=='yes':
         logging.info("Battery check said yes")
         print('checking battery')
@@ -82,48 +74,44 @@ def main():
         f.write("no")
         f.close()
         logging.info("Wrote no to batteryText.txt file")
-    elif healthText.strip()=='yes':
+    if healthText.strip()=='yes':
         logging.info("Health check said yes")
         print('logging health')
         f = open("healthFile.txt","w")
         f.write("no")
         f.close()
         logging.info("Wrote no to healthText.txt file")
-    elif beaconText.strip()=='yes':
+    if beaconText.strip()=='yes':
         logging.info("Beacon check said yes")
         print('sending to ground')
         f = open("beacon.txt","w")
         f.write("no")
         f.close()
         logging.info("Wrote no to beacon.txt file")
-    elif schedulerText.strip()=='yes':
-
-        # TODO: get the async function responsible for this txt file to also write what the current mode is
-        # TODO: did not implement logging for scheduler
-        # figure out which mode to go into from second line of text file
 
 
-        f = open("scheduleTimer.txt","w")
-        mode = f.readline()
-        # calling readline twice gets you the second line
-        mode = f.readline()
-        f.write("no")
-        f.close()
 
-        if mode == 'detumble':
-            logging.debug("Calling detumble function")
-            print('calling detumble function')
-        elif mode == 'runhddtest':
-            logging.debug("Calling ADCS HDD function")
-            print('calling ADCS HDD function')
-        elif mode == 'runmrwtest':
-            logging.debug("Calling ADCS MRW Test function")
-            print('calling ADCS MRW Test function')
-        elif mode == 'hddimagingmode':
-            logging.debug("Calling ADCS HDD Imaging function")
-            print('calling ADCS HDD Imaging function')
-        elif mode == 'mrwimagingmode':
-            logging.debug("Calling ADCS MRW Imaging function")
-            print('calling ADCS MRW Imaging function')
+    #this is checking what mode it should be in
+    logging.debug("Opening scheduleTimer.txt")
+    s = open("scheduleTimer.txt", "r")
+    mode = s.readline()
+    s.close();
+    logging.debug("Successful scheduleTimer.txt access")
+
+    if mode == 'detumble':
+        logging.debug("Calling detumble function")
+        print('calling detumble function')
+    elif mode == 'runhddtest':
+        logging.debug("Calling ADCS HDD function")
+        print('calling ADCS HDD function')
+    elif mode == 'runmrwtest':
+        logging.debug("Calling ADCS MRW Test function")
+        print('calling ADCS MRW Test function')
+    elif mode == 'hddimagingmode':
+        logging.debug("Calling ADCS HDD Imaging function")
+        print('calling ADCS HDD Imaging function')
+    elif mode == 'mrwimagingmode':
+        logging.debug("Calling ADCS MRW Imaging function")
+        print('calling ADCS MRW Imaging function')
 
 main()
