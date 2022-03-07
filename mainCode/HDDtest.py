@@ -1,1 +1,2 @@
-
+def hddTest():
+    pass

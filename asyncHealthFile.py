@@ -2,7 +2,7 @@ import time
 import os
 
 home = os.path.expanduser("~") #determines home path regardless of OS
-file_path = home + '/SSS/mainCode'
+file_path = home + '/SSS-Computer-Systems-/asyncTextFiles'
 file_name = "healthFile.txt"
 
 completeName = os.path.join(file_path, file_name)
