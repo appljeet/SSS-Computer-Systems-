@@ -1,5 +1,14 @@
 import logging
 import RPi.GPIO as GPIO
+#local imports
+from checkBattery import *
+from deployAntenna import *
+from detumble import *
+from hddImagingMode import *
+from hddTest import *
+from mrwImagingMode import *
+from readFile import *
+from writeFile import *
 
 #Format follows convention of: Level of Warning, Time (down to the ms), Message
 LOG_FORMAT = "%(levelname)s %(asctime)s -> %(message)s"
@@ -31,87 +40,59 @@ def main():
     ifAntennaDeploy=a.readline()
     a.close()
     if ifAntennaDeploy.strip()=='no':
-        #Need to test setting gpio to high. IDK if it's set high for a millisecond or for the duration of the program
-        #engage burnwire resistor
-        GPIO.setmode(GPIO.BOARD)
-        #need to change address of gpio pin because we don't know what it should be
-        GPIO.setup(5, GPIO.OUT)
-        #setting gpio pin to high
-        GPIO.output(5, GPIO.HIGH)
-        logging.debug('Deployed Antenna')
-
+        #actually deploy the antenna
+        deployAntenna()
         #write to text file so antenna doesn't deploy again
         b = open("antennaDeploy.txt","w")
         b.write("yes")
         b.close()
         logging.debug('Succesfully wrote "no" to antennaDeploy.txt')
 
-    # check if battery timer is done
-    logger.debug("Checking battery")
-    bt = open("batteryText.txt", "r")
-    batteryText = bt.readline()
-    bt.close();
-    logger.debug("Successful battery check")
 
-# change name of file so it isnt confused with where health data is actually being stored
-    logging.debug("Opening healthFile.txt")
-    h = open("healthFile.txt", "r")
-    healthText = h.readline()
-    h.close();
-    logging.debug("Successful healthFile.txt access")
-
-    logging.debug("Opening beacon.txt")
-    b = open("beacon.txt", "r")
-    beaconText = b.readline()
-    b.close();
-    logging.debug("Successful beacon.txt access")
+    #get first line of respective file
+    batteryText = readFile("batteryText.txt")
+    healthText = readFile("healthFile.txt")
+    beaconText = readFile("beacon.txt")
 
     if batteryText.strip()=='yes':
         logging.info("Battery check said yes")
         print('checking battery')
+        #actually check the battery
+        checkBattery()
         # write no to file and restart timer
-        f = open("batteryText.txt","w")
-        f.write("no")
-        f.close()
-        logging.info("Wrote no to batteryText.txt file")
+        writeFile("batteryText.txt","no")
     if healthText.strip()=='yes':
         logging.info("Health check said yes")
-        print('logging health')
-        f = open("healthFile.txt","w")
-        f.write("no")
-        f.close()
-        logging.info("Wrote no to healthText.txt file")
+        writeFile("healthFile.txt","no")
     if beaconText.strip()=='yes':
         logging.info("Beacon check said yes")
-        print('sending to ground')
-        f = open("beacon.txt","w")
-        f.write("no")
-        f.close()
-        logging.info("Wrote no to beacon.txt file")
+        writeFile("beacon.txt","no")
 
-
+    #check the battery before hitting the schedule so you dont die mid hdd or mrwtest
+    checkBattery()
 
     #this is checking what mode it should be in
-    logging.debug("Opening scheduleTimer.txt")
-    s = open("scheduleTimer.txt", "r")
-    mode = s.readline()
-    s.close();
-    logging.debug("Successful scheduleTimer.txt access")
+    mode = readFile("scheduleTimer.txt")
 
     if mode == 'detumble':
         logging.debug("Calling detumble function")
         print('calling detumble function')
+        detumble()
     elif mode == 'runhddtest':
         logging.debug("Calling ADCS HDD function")
         print('calling ADCS HDD function')
+        hddTest()
     elif mode == 'runmrwtest':
         logging.debug("Calling ADCS MRW Test function")
         print('calling ADCS MRW Test function')
+        mrwTest()
     elif mode == 'hddimagingmode':
         logging.debug("Calling ADCS HDD Imaging function")
         print('calling ADCS HDD Imaging function')
+        hddImagingMode()
     elif mode == 'mrwimagingmode':
         logging.debug("Calling ADCS MRW Imaging function")
         print('calling ADCS MRW Imaging function')
+        mrwImagingMode()
 
 main()
