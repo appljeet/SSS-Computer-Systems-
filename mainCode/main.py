@@ -77,22 +77,36 @@ def main():
     if mode == 'detumble':
         logging.debug("Calling detumble function")
         print('calling detumble function')
-        detumble()
-    elif mode == 'runhddtest':
-        logging.debug("Calling ADCS HDD function")
-        print('calling ADCS HDD function')
-        hddTest()
-    elif mode == 'runmrwtest':
-        logging.debug("Calling ADCS MRW Test function")
-        print('calling ADCS MRW Test function')
-        mrwTest()
-    elif mode == 'hddimagingmode':
-        logging.debug("Calling ADCS HDD Imaging function")
-        print('calling ADCS HDD Imaging function')
-        hddImagingMode()
-    elif mode == 'mrwimagingmode':
+        #Insert ADCS function call here
+        #Main_ADCS(sunsensor_input, mag_inputs, angvel_inputs, epoch_time, mode, TLE)
+        #detumble()
+    elif mode == 'mrwPointing':
+        logging.debug("Calling ADCS MRW Pointing")
+        print("Calling ADCS MRW Pointing")
+        #Insert ADCS function call here
+        #Main_ADCS(sunsensor_input, mag_inputs, angvel_inputs, epoch_time, mode, TLE)
+        #hddTest()
+    elif mode == 'mrwImaging':
         logging.debug("Calling ADCS MRW Imaging function")
-        print('calling ADCS MRW Imaging function')
-        mrwImagingMode()
-
+        print("Calling ADCS MRW Imaging function")
+        #Insert ADCS function call here
+        #Main_ADCS(sunsensor_input, mag_inputs, angvel_inputs, epoch_time, mode, TLE)
+        #mrwTest()
+    elif mode == 'hddPointing':
+        logging.debug("Calling ADCS HDD Pointing function")
+        print("Calling ADCS HDD Pointing function")
+        #Insert ADCS function call here
+        #Main_ADCS(sunsensor_input, mag_inputs, angvel_inputs, epoch_time, mode, TLE)
+        #hddImagingMode()
+    elif mode == 'hddImaging':
+        logging.debug("Calling ADCS HDD Imaging function")
+        print("Calling ADCS HDD Imaging function")
+        #Insert ADCS function call here
+        #Main_ADCS(sunsensor_input, mag_inputs, angvel_inputs, epoch_time, mode, TLE)
+        #mrwImagingMode()
+    #elif mode == "rotisserie":
+        #logging.debug("Calling ADCS Rotisserie function")
+        #print("Calling ADCS Rotisserie function")
+        #Insert ADCS function call here
+        #Main_ADCS(sunsensor_input, mag_inputs, angvel_inputs, epoch_time, mode, TLE)
 main()
