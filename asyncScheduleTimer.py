@@ -9,7 +9,7 @@ file_name = "scheduleTimer.txt"
 completeName = os.path.join(file_path, file_name)
 
 while True:
-    time.sleep (60) #checks battery every minute
+    time.sleep (60) #stops us from checking the time every millisecond
 
     #get time from RTC and convert to double so you can compare. Then store it in currentTime variable
     # when getting time from rtc, drop the seconds and simply convert the time to decimal format.
