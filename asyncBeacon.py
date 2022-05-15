@@ -1,14 +1,8 @@
+import logging
 import time
 import os
-
-home = os.path.expanduser("~") #determines home path regardless of OS
-file_path = home + '/SSS-Computer-Systems-/asyncTextFiles'
-file_name = "beacon.txt"
-
-completeName = os.path.join(file_path, file_name)
+from writeFile import *
 
 while True:
-    time.sleep (60) #checks battery every minute
-    f = open(completeName, "w")
-    f.write("yes") #writing yes to txt file every minute
-    f.close()
+    writeFile("beacon.txt","yes")
+    time.sleep(60) #checks battery every minute
