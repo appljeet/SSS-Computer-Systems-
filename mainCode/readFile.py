@@ -1,3 +1,6 @@
+import logging
+import os
+
 def readFile(file_name):
     #Format follows convention of: Level of Warning, Time (down to the ms), Message
     LOG_FORMAT = "%(levelname)s %(asctime)s -> %(message)s"
@@ -5,7 +8,7 @@ def readFile(file_name):
     logger = logging.getLogger()
 
     home = os.path.expanduser("~") #determines home path regardless of OS
-    file_path = home + '/SSS-Computer-Systems-/asyncTextFiles'
+    file_path = '../SSS-Computer-Systems-/asyncTextFiles'
     completeName = os.path.join(file_path, file_name)
     r = open(completeName, "r")
     text = r.readline()
