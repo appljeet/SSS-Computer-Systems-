@@ -1,10 +1,10 @@
 from readFile import *
 from writeFile import *
+import time
 def rechargeMode(batteryPercentage):
     while batteryPercentage<90:
-        #stay in this loop and check battery every 2 mins or however frequently asyncBattery.py is
-        batteryText = readFile("batteryText.txt")
-
+        time.sleep(300) #check battery every 5 mins
+        # here is where you should be getting battery info
         if batteryText.strip()=='yes':
 
             #reset the battery timer
